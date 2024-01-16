@@ -33,6 +33,15 @@ class Order(models.Model):
     vehicle = models.ForeignKey(to='Vehicle', on_delete=models.CASCADE)
     total = models.FloatField(verbose_name='Total', null=True, blank=True)
 
+    ORDER_STATUS = (
+        ('r', 'Received'),
+        ('c', 'Confirmed'),
+        ('ip', 'In-progress'),
+        ('co', 'Complete'),
+    )
+
+    order_status = models.CharField(max_length=2, choices=ORDER_STATUS, blank=True, default='r', help_text='Order status')
+
     def __str__(self):
         return f"({self.date}) - {self.vehicle}. Order price: {self.total}"
 

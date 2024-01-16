@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+  <h1>My autoservice</h1>
+  <p>Give your vehicle a makeover!</p>
+  <p>Currently, we have:</p>
+  <ul>
+    <li><strong>Vehicles:</strong> {{ vehicle_amount }}</li>
+    <li><strong>Available services:</strong> {{ service_num }}</li>
+    <li><strong>Complete orders:</strong> {{ orders_done }}</li>
+  </ul>
+{% endblock %}
