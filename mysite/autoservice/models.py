@@ -9,6 +9,10 @@ class Model(models.Model):
     def __str__(self):
         return f"Make/Model: {self.make} - {self.model}"
 
+    class Meta:
+        verbose_name = 'Model'
+        verbose_name_plural = 'Models'
+
 
 class Vehicle(models.Model):
     model = models.ForeignKey(to='Model', on_delete=models.CASCADE)
@@ -19,6 +23,10 @@ class Vehicle(models.Model):
     def __str__(self):
         return f"{self.model}({self.plate}). VIN: {self.vin}. Owner: {self.client}"
 
+    class Meta:
+        verbose_name = 'Vehicle'
+        verbose_name_plural = 'Vehicles'
+
 
 class Order(models.Model):
     date = models.DateField(verbose_name='Date', auto_now=True, null=True, blank=True)
@@ -27,6 +35,10 @@ class Order(models.Model):
 
     def __str__(self):
         return f"({self.date}) - {self.vehicle}. Order price: {self.total}"
+
+    class Meta:
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
 
 
 class OrderLine(models.Model):
@@ -38,6 +50,10 @@ class OrderLine(models.Model):
     def __str__(self):
         return f"{self.service} ({self.amount}) - {self.service_price}"
 
+    class Meta:
+        verbose_name = 'OrderLine'
+        verbose_name_plural = 'OrderLines'
+
 
 class Service(models.Model):
     name = models.CharField(verbose_name='Service name', max_length=500, null=True, blank=True)
@@ -45,3 +61,7 @@ class Service(models.Model):
 
     def __str__(self):
         return f"Service: {self.name}. Price: {self.service_price}"
+
+    class Meta:
+        verbose_name = 'Service'
+        verbose_name_plural = 'Services'
