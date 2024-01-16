@@ -3,10 +3,15 @@ from .models import *
 
 
 # Class Inlines
+class OrderInLine(admin.TabularInline):
+    model = OrderLine
+    extra = 0
+
 
 # AdminClasses
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('date', 'vehicle', 'total')
+    inlines = [OrderInLine]
 
 
 # Register your models here.
