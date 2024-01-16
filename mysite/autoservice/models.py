@@ -7,7 +7,7 @@ class Model(models.Model):
     model = models.CharField(verbose_name='Model', max_length=50, null=True, blank=True)
 
     def __str__(self):
-        return f"Make/Model: {self.make} - {self.model}"
+        return f"{self.make} {self.model}"
 
     class Meta:
         verbose_name = 'Model'
@@ -18,7 +18,7 @@ class Vehicle(models.Model):
     model = models.ForeignKey(to='Model', on_delete=models.CASCADE)
     plate = models.CharField(verbose_name='Plate number', max_length=50, null=True, blank=True)
     vin = models.CharField(verbose_name='VIN number', max_length=50, null=True, blank=True)
-    client = models.CharField(verbose_name='VIN number', max_length=50, null=True, blank=True)
+    client = models.CharField(verbose_name='Client', max_length=50, null=True, blank=True)
 
     def __str__(self):
         return f"{self.model}({self.plate}). VIN: {self.vin}. Owner: {self.client}"

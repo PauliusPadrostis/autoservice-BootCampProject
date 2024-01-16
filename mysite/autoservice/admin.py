@@ -15,6 +15,9 @@ class OrderAdmin(admin.ModelAdmin):
 
 class VehicleAdmin(admin.ModelAdmin):
     list_display = ('client', 'model', 'plate', 'vin')
+    list_filter = ('client', 'model')
+    search_fields = ('plate', 'vin')
+
 
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'service_price')
