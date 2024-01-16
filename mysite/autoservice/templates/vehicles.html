@@ -1,9 +1,59 @@
 {% extends "base.html" %}
 
 {% block "content" %}
-  <h1>Vehicles</h1>
-  <p>Vehicles we have serviced:</p>
-  {% for vehicle in vehicles %}
-    <li><a href="{% url 'vehicle' vehicle.id %}">{{vehicle.make}} {{vehicle.model}}</a></li>
-    {% endfor %}
+<h1 class="ms-3 mt-5">Vehicles we have serviced:</h1>
+<br>
+<br>
+
+
+
+
+<div class="container">
+    <div class="row">
+        {% for vehicle in vehicles %}
+            <div class="col-md-3 d-flex justify-content-evenly align-items-stretch">
+                <div class="card-body mb-5 shadow-sm">
+                    {% if vehicle.cover %}
+                        {% load static %}
+                        <img src="{{ vehicle.cover.url }}" class="card-img-top d-block" alt="...">
+                    {% else %}
+                        <img src="{% static 'img/no_image.png' %}" class="card-img-top d-block">
+                    {% endif %}
+                    <div class="card-footer">
+                        <h6 class="card-subtitle mb-2 text-muted">{{ vehicle.client }}</h6>
+                        <p class="card-text"><a href="{{ vehicle.id }}">{{ vehicle.model }}</a></p>
+                    </div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:4 and not forloop.last %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="container pages">
+    <nav aria-label="...">
+        {% if vehicles.has_other_pages %}
+        <ul class="pagination pagination-sm justify-content-end">
+            {% for i in vehicles.paginator.page_range %}
+            {% if vehicles.number == i %}
+            <li class="page-item active">
+                <a class="page-link">{{ i }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </nav>
+</div>
 {% endblock %}

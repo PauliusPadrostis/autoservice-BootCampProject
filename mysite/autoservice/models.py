@@ -19,6 +19,7 @@ class Vehicle(models.Model):
     plate = models.CharField(verbose_name='Plate number', max_length=50, null=True, blank=True)
     vin = models.CharField(verbose_name='VIN number', max_length=50, null=True, blank=True)
     client = models.CharField(verbose_name='Client', max_length=50, null=True, blank=True)
+    cover = models.ImageField('Cover', upload_to='covers', null=True, blank=True)
 
     def __str__(self):
         return f"{self.model}({self.plate}). VIN: {self.vin}. Owner: {self.client}"
@@ -41,7 +42,6 @@ class Order(models.Model):
     )
 
     order_status = models.CharField(max_length=2, choices=ORDER_STATUS, blank=True, default='r', help_text='Order status')
-
     def __str__(self):
         return f"({self.date}) - {self.vehicle}. Order price: {self.total}"
 

@@ -2,6 +2,8 @@ from django.shortcuts import render
 from .models import *
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 # Create your views here.
 from django.http import HttpResponse
@@ -24,9 +26,11 @@ def index(request):
 
 
 def vehicles(request):
-    vehicles = Vehicle.objects.all()
+    paginator = Paginator(Vehicle.objects.all(), 8)
+    page_number = request.GET.get('page')
+    paged_vehicles = paginator.get_page(page_number)
     context = {
-        'vehicles': vehicles
+        'vehicles': paged_vehicles
     }
     return render(request, 'vehicles.html', context=context)
 
@@ -48,17 +52,21 @@ def service(request, service_id):
     single_service = get_object_or_404(Service, pk=service_id)
     return render(request, 'service.html', {'service': single_service,})
 
-# Sukurti puslapį (per klasę views faile),
-# pvz. autoservice/uzsakymai, kuriame būtų atvaizduoti visi serviso užsakymai.
-
 
 class OrderListView(generic.ListView):
     model = Order
+    paginate_by = 2
     template_name = 'order_list.html'
 
 
 class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'order_detail.html'
+
+
+def search(request):
+    query = request.GET.get('query')
+    search_results = Vehicle.objects.filter(Q(client__icontains=query) | Q(model__make__icontains=query) | Q(model__model__icontains=query) | Q(plate__icontains=query)| Q(vin__icontains=query))
+    return render(request, 'search.html', {'vehicles': search_results, 'query': query})
 
 

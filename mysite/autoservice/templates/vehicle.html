@@ -1,13 +1,21 @@
 {% extends "base.html" %}
 
 {% block "content" %}
-    <div class="container vehicle">
+<div class="container vehicle">
+    <br>
+    {% if vehicle.cover %}
+    {% load static %}
+    <img src="{{ vehicle.cover.url }}" class="card-img-top" alt="...">
+    {% else %}
+    <img src="{% static 'img/no_image.png' %}" class="card-img-top">
+    {% endif %}
+    <br>
     <h4>{{ vehicle.model }}</h4>
-    <hr/>
+    <hr>
     <p>Client: {{ vehicle.client }}</p>
     <p>Plate number: {{ vehicle.plate }}</p>
     <p>VIN number: {{ vehicle.vin }}</p>
-    </hr>
-    </br>
-    </div>
+    <hr>
+    <br>
+</div>
 {% endblock %}
