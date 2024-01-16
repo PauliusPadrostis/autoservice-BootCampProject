@@ -13,6 +13,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('date', 'vehicle', 'total')
     inlines = [OrderInLine]
 
+
 class VehicleAdmin(admin.ModelAdmin):
     list_display = ('client', 'model', 'plate', 'vin')
     list_filter = ('client', 'model')
