@@ -16,10 +16,13 @@ class OrderAdmin(admin.ModelAdmin):
 class VehicleAdmin(admin.ModelAdmin):
     list_display = ('client', 'model', 'plate', 'vin')
 
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'service_price')
+
 
 # Register your models here.
 admin.site.register(Model)
 admin.site.register(Vehicle, VehicleAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderLine)
-admin.site.register(Service)
+admin.site.register(Service, ServiceAdmin)
