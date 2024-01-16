@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+<h5>{{ order.vehicle }}</h5>
+<hr>
+
+<p><strong>Date of order:</strong> {{ order.date }}</p>
+
+<p><strong>Services provided:</strong></p>
+
+{% for line in order.orderline_set.all %}
+<ul>
+    <li>
+        {{ line.service.name }} ({{ line.amount }}) ({{ line.service.service_price }})
+        <hr>
+    </li>
+</ul>
+{% endfor %}
+
+<p><strong>Total price of order:</strong> {{ order.total }}</p>
+
+
+{% endblock %}
