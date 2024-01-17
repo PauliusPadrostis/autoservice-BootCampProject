@@ -15,6 +15,7 @@
     <p>Client: {{ vehicle.client }}</p>
     <p>Plate number: {{ vehicle.plate }}</p>
     <p>VIN number: {{ vehicle.vin }}</p>
+    <p>Vehicle description: {{ vehicle.model.desc | safe }}</p>
     <hr>
     <br>
 </div>

@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
+from tinymce.models import HTMLField
 
 
 # Create your models here.
 class Model(models.Model):
     make = models.CharField(verbose_name='Make', max_length=50, null=True, blank=True)
     model = models.CharField(verbose_name='Model', max_length=50, null=True, blank=True)
+    desc = HTMLField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.make} {self.model}"
