@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+from datetime import date
 
 
 # Create your models here.
@@ -33,6 +35,8 @@ class Order(models.Model):
     date = models.DateField(verbose_name='Date', auto_now=True, null=True, blank=True)
     vehicle = models.ForeignKey(to='Vehicle', on_delete=models.CASCADE)
     total = models.FloatField(verbose_name='Total', null=True, blank=True)
+    client = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    return_due = models.DateField(verbose_name="Return due", null=True, blank=True)
 
     ORDER_STATUS = (
         ('r', 'Received'),
