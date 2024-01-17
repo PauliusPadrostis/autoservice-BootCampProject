@@ -4,14 +4,13 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
-from django.http import HttpResponse
 
 
-# Services amount, orders done, vehicle amount
 def index(request):
-
     service_num = Service.objects.all().count()
     orders_done = Order.objects.filter(order_status__exact='co').count()
     vehicle_amount = Vehicle.objects.count()
@@ -41,7 +40,7 @@ def vehicles(request):
 
 def vehicle(request, vehicle_id):
     single_vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
-    return render(request, 'vehicle.html', {'vehicle': single_vehicle,})
+    return render(request, 'vehicle.html', {'vehicle': single_vehicle, })
 
 
 def services(request):
@@ -54,7 +53,7 @@ def services(request):
 
 def service(request, service_id):
     single_service = get_object_or_404(Service, pk=service_id)
-    return render(request, 'service.html', {'service': single_service,})
+    return render(request, 'service.html', {'service': single_service, })
 
 
 class OrderListView(generic.ListView):
@@ -70,7 +69,16 @@ class OrderDetailView(generic.DetailView):
 
 def search(request):
     query = request.GET.get('query')
-    search_results = Vehicle.objects.filter(Q(client__icontains=query) | Q(model__make__icontains=query) | Q(model__model__icontains=query) | Q(plate__icontains=query)| Q(vin__icontains=query))
+    search_results = Vehicle.objects.filter(
+        Q(client__icontains=query) | Q(model__make__icontains=query) | Q(model__model__icontains=query) | Q(
+            plate__icontains=query) | Q(vin__icontains=query))
     return render(request, 'search.html', {'vehicles': search_results, 'query': query})
 
 
+class VehiclesByClientListView(LoginRequiredMixin, generic.ListView):
+    model = Order
+    template_name = 'my_orders.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Order.objects.filter(client=self.request.user)

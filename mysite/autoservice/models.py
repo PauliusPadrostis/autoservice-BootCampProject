@@ -53,6 +53,11 @@ class Order(models.Model):
         verbose_name = 'Order'
         verbose_name_plural = 'Orders'
 
+    def is_overdue(self):
+        if self.return_due and date.today() > self.return_due:
+            return True
+        return False
+
 
 class OrderLine(models.Model):
     service = models.ForeignKey(to='Service', on_delete=models.CASCADE)
