@@ -1,6 +1,4 @@
-from django.shortcuts import render
 from .models import *
-from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -9,6 +7,9 @@ from django.shortcuts import redirect
 from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
+from django.shortcuts import render, reverse, get_object_or_404
+from .forms import OrderReviewForm
+from django.views.generic.edit import FormMixin
 
 
 # Create your views here.
@@ -66,9 +67,27 @@ class OrderListView(generic.ListView):
     template_name = 'order_list.html'
 
 
-class OrderDetailView(generic.DetailView):
+class OrderDetailView(FormMixin, generic.DetailView):
     model = Order
     template_name = 'order_detail.html'
+    form_class = OrderReviewForm
+
+    def get_success_url(self):
+        return reverse('order_detail', kwargs={'pk': self.object.id})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.instance.order = self.object
+        form.instance.reviewer = self.request.user
+        form.save()
+        return super(OrderDetailView, self).form_valid(form)
 
 
 def search(request):

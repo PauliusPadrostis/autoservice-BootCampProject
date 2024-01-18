@@ -18,6 +18,28 @@
 {% endfor %}
 
 <p><strong>Total price of order:</strong> {{ order.total }}</p>
+<br>
 
-
+  <h4>Comments:</h4>
+    {% if order.comment_set.all %}
+        {% for comment in order.comment_set.all %}
+          <hr>
+          <strong>{{ comment.commenter }}</strong>, <em>{{ comment.date_created}}</em>
+          <p>{{ comment.content }}</p>
+        {% endfor %}
+    {% else %}
+    <p>Order has no comments</p>
+    {% endif %}
+<br>
+{% if user.is_authenticated %}
+  <div class="fieldWrapper">
+    <hr><br/>
+    <h4>Leave a comment:</h4>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.content }}</br>
+      <input type="submit" value="Save">
+    </form>
+  </div>
+  {% endif %}
 {% endblock %}

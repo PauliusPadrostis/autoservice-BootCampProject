@@ -23,6 +23,9 @@ class VehicleAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'service_price')
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('order', 'commenter', 'date_created', 'content')
+
 
 # Register your models here.
 admin.site.register(Model)
@@ -30,3 +33,4 @@ admin.site.register(Vehicle, VehicleAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderLine)
 admin.site.register(Service, ServiceAdmin)
+admin.site.register(Comment, CommentAdmin)

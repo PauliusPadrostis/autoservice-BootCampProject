@@ -85,3 +85,15 @@ class Service(models.Model):
     class Meta:
         verbose_name = 'Service'
         verbose_name_plural = 'Services'
+
+
+class Comment(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.DO_NOTHING, null=True, blank=True)
+    commenter = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
+    date_created = models.DateField(auto_now_add=True)
+    content = models.TextField('Comment', max_length=1000)
+
+    class Meta:
+        verbose_name = "Comment"
+        verbose_name_plural = "Comments"
+        ordering = ['-date_created']

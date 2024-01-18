@@ -67,7 +67,7 @@
             <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'info' %}success{% endif %}" role="alert"> {{ message }} </div>
         {% endfor %}
     {% endif %}
-<div class="col-sm-12 ">
+<div class="col-sm-12 ms-5 mt-4 ">
     {% block "content" %}
     {% endblock %}
 </div>
