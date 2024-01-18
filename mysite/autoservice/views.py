@@ -5,6 +5,10 @@ from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
+from django.contrib.auth.forms import User
+from django.views.decorators.csrf import csrf_protect
+from django.contrib import messages
 
 
 # Create your views here.
@@ -82,3 +86,27 @@ class VehiclesByClientListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return Order.objects.filter(client=self.request.user)
+
+@csrf_protect
+def register(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        password2 = request.POST['password2']
+        if password == password2:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, f'Username {username} is taken!')
+                return redirect('register')
+            else:
+                if User.objects.filter(email=email).exists():
+                    messages.error(request, f'User with the following email: {email} already exists!')
+                    return redirect('register')
+                else:
+                    User.objects.create_user(username=username, email=email, password=password)
+                    messages.info(request, f'User {username} registered!')
+                    return redirect('login')
+        else:
+            messages.error(request, "Passwords don't match!")
+            return redirect('register')
+    return render(request, 'registration/register.html')
