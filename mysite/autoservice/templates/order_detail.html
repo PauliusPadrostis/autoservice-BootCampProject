@@ -41,6 +41,9 @@
       {{ form.content }}</br>
       <input type="submit" value="Save">
     </form>
+      <div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'order_update' order.pk %}">Update order</a>
+    </div>
   </div>
   {% endif %}
 {% endblock %}

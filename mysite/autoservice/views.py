@@ -2,7 +2,7 @@ from .models import *
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
@@ -24,6 +24,21 @@ class OrderByUserCreateView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.client = self.request.user
         return super().form_valid(form)
+
+
+class OrderByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = Order
+    template_name = 'new_user_order.html'
+    fields = ['vehicle', 'return_due', 'order_status']
+    success_url = '/autoservice/orders/'
+
+    def form_valid(self, form):
+        form.instance.client = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        return self.get_object().client == self.request.user
+
 
 @login_required
 def profile(request):
