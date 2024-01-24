@@ -57,7 +57,7 @@ class Order(models.Model):
     date = models.DateField(verbose_name='Date', auto_now=True, null=True, blank=True)
     vehicle = models.ForeignKey(to='Vehicle', on_delete=models.CASCADE)
     total = models.FloatField(verbose_name='Total', null=True, blank=True)
-    client = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    client = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     return_due = models.DateField(verbose_name="Return due", null=True, blank=True)
 
     ORDER_STATUS = (
@@ -111,8 +111,8 @@ class Service(models.Model):
 
 
 class Comment(models.Model):
-    order = models.ForeignKey('Order', on_delete=models.DO_NOTHING, null=True, blank=True)
-    commenter = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, null=True, blank=True)
+    commenter = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     date_created = models.DateField(auto_now_add=True)
     content = models.TextField('Comment', max_length=1000)
 

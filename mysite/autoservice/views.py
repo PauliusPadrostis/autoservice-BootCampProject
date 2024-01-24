@@ -40,6 +40,15 @@ class OrderByUserUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.Upd
         return self.get_object().client == self.request.user
 
 
+class OrderByUserDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Order
+    success_url = '/autoservice/myorders'
+    template_name = 'order_delete.html'
+
+    def test_func(self):
+        return self.get_object().client == self.request.user
+
+
 @login_required
 def profile(request):
     if request.method == "POST":
