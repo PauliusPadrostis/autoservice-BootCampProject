@@ -15,6 +15,16 @@ from .forms import OrderReviewForm, UserUpdateForm, ProfileUpdateForm
 
 # Create your views here.
 
+class OrderByUserCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Order
+    fields = ['vehicle', 'return_due', 'order_status']
+    success_url = '/autoservice/orders/'
+    template_name = 'new_user_order.html'
+
+    def form_valid(self, form):
+        form.instance.client = self.request.user
+        return super().form_valid(form)
+
 @login_required
 def profile(request):
     if request.method == "POST":

@@ -29,5 +29,8 @@
             <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
+    <div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'new_user_order' %}">New order</a>
+    </div>
 </div>
 {% endblock %}

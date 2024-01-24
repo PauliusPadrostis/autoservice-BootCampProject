@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
+
+from django.urls import reverse
 from tinymce.models import HTMLField
 from PIL import Image
 
@@ -77,6 +79,9 @@ class Order(models.Model):
         if self.return_due and date.today() > self.return_due:
             return True
         return False
+
+    def get_absolute_url(self):
+        return reverse('order_detail', args=[str(self.pk)])
 
 
 class OrderLine(models.Model):
